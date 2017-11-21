@@ -24,7 +24,6 @@ You'll need to supply values for the following environment variables:
 | OKTA_OIDC_CLIENT_SECRET      | The Okta OIDC application client secret                                                                               |
 | OKTA_SESSION_USERNAME        | The email address of the user that the app will establish a session as                                                |
 | OKTA_SESSION_PASSWORD        | The password of the user that the app will establish a session as                                                     |
-| OKTA_ZORK_URL                | The base URL of where the [Okta OAuth2 Zork](https://github.com/oktadeveloper/okta-zork-oauth-example) game is hosted |
 
 The `OKTA_SESSION_USERNAME` and `OKTA_SESSION_PASSWORD` are used to establish a session
 on the backend so that the user does not have to login to exercise the OIDC app.
