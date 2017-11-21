@@ -239,7 +239,6 @@
 
                     if (urlParams.get('access_token')) {
                         $('#access_token').val(urlParams.get('access_token'));
-                        $('.zork').attr("href", "/zork#access_token=" + urlParams.get('access_token'));
                         if (isConfigChanged) {
                             $('.introspect').prop("disabled",true);
                         }
@@ -316,103 +315,6 @@
                     }
                 });
             })
-        });
-        /*]]>*/
-    </script>
-</div>
-
-<div th:fragment="zork" xmlns:th="http://www.thymeleaf.org">
-    <script src="/js/codemirror.js"></script>
-    <script src="/js/mode/javascript.js"></script>
-    <script src="/js/mode/shell.js"></script>
-    <script th:inline="text">
-        /*<![CDATA[*/
-        $(document).ready(function () {
-            var oktaZorkUrl = '[[${oktaZorkUrl}]]';
-            var accessToken = $('#access_token');
-            var commandLine = $('#command-line');
-
-            var query = (location.search) ? location.search : location.href.substring(location.href.indexOf('#')+1);
-            var urlParams = new URLSearchParams(query);
-            accessToken.val(urlParams.get("access_token"));
-
-            var gameSpaceArea = document.getElementById('game-space');
-            var gameSpace = CodeMirror.fromTextArea(gameSpaceArea, {
-                mode: 'javascript',
-                lineNumbers: true,
-                matchBrackets: true,
-                readOnly: true
-            });
-
-            var httpieArea = document.getElementById('httpie');
-            var httpie = CodeMirror.fromTextArea(httpieArea, {
-                mode: 'shell',
-                lineNumbers: true,
-                matchBrackets: true,
-                readOnly: true
-            });
-            httpie.setSize(null, 100);
-
-            var sendCommand = function (command) {
-                $.ajax({
-                    url: oktaZorkUrl + '/v1/game',
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    beforeSend: function (xhr) {
-                        if ($("#bearer").is(':checked')) {
-                            xhr.setRequestHeader('Authorization' , 'Bearer ' + $('#access_token').val());
-                        }
-                    },
-                    dataType: 'json',
-                    data: (command) ? JSON.stringify({command: command}) : null
-                })
-                .done(function (data, textStatus, jqXHR) {
-                    gameSpace.setValue(JSON.stringify(data, null, '\t'));
-                    $('#command-line').val('');
-                    showHttpie();
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    gameSpace.setValue(JSON.stringify(jqXHR.responseJSON, null, '\t'));
-                });
-            };
-
-            var showHttpie = function () {
-                var val = 'http POST \\\n';
-                val += oktaZorkUrl + '/v1/game';
-                if (commandLine.val().trim()) {
-                    val += ' \\\ncommand="' + $('#command-line').val() + '"';
-                }
-                if ($("#bearer").is(':checked')) {
-                    val += ' \\\nAuthorization:"Bearer ' + $('#access_token').val() + '"';
-                }
-
-              httpie.setValue(val);
-            };
-
-            $('#zork-form').submit(function (e) {
-                e.preventDefault();
-                return false;
-            });
-
-            commandLine.keyup(function (e) {
-                showHttpie();
-                var command = $('#command-line').val().trim();
-                if (e.keyCode === 13) {
-                    sendCommand(command);
-                }
-            });
-
-            $("#bearer").click(function () {
-                showHttpie();
-            });
-
-            // prime the pump
-            if (accessToken.val()) {
-                showHttpie();
-                sendCommand();
-            }
-
-            commandLine.focus();
         });
         /*]]>*/
     </script>
