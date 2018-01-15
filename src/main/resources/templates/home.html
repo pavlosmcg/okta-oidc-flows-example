@@ -19,10 +19,19 @@
                         <p/><br/>
                         <button class="btn btn-success" id="revert-config">Revert to Original Config</button>
                     </div>
-                    <div class="alert alert-info" role="alert" th:inline="text">
-                        NOTE: A default session has been established using: <b>[[${sessionUsername}]]</b>
-                    </div>
                     <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="okta_username">Username</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control build-url update-config" id="okta_username" placeholder="Username" th:value="${sessionUsername}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="okta_password">Password</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control build-url update-config" id="okta_password" placeholder="Password" th:value="${sessionPassword}"/>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="okta_org">Okta Org</label>
                             <div class="col-md-9">

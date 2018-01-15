@@ -23,13 +23,11 @@ public class TenantConfig {
     @Value("#{ @environment['okta.oidc.client.secret'] }")
     protected String oidcClientSecret;
 
-    @Value("#{ @environment['okta.session.username'] }")
-    protected String sessionUsername;
-
-    @Value("#{ @environment['okta.session.password'] }")
-    protected String sessionPassword;
     // END not updateable after startup
+    protected String sessionUsername = "";
 
+    protected String sessionPassword = "";
+    
     @Value("#{ @environment['okta.oidc.client.id'] }")
     protected String oidcClientId;
 
