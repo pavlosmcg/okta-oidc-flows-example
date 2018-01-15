@@ -24,9 +24,12 @@ public class TenantConfig {
     protected String oidcClientSecret;
 
     // END not updateable after startup
-    protected String sessionUsername = "";
 
-    protected String sessionPassword = "";
+    @Value("#{ @environment['okta.session.username'] }")
+    protected String sessionUsername;
+
+    @Value("#{ @environment['okta.session.password'] }")
+    protected String sessionPassword;
     
     @Value("#{ @environment['okta.oidc.client.id'] }")
     protected String oidcClientId;
@@ -58,14 +61,6 @@ public class TenantConfig {
         return oidcClientSecret;
     }
 
-    public String getSessionUsername() {
-        return sessionUsername;
-    }
-
-    public String getSessionPassword() {
-        return sessionPassword;
-    }
-
     public String getRedirectUrl(HttpServletRequest req, String redirectUri) {
         String proto = req.getHeader("x-forwarded-proto");
         String requestUrl = req.getRequestURL().toString();
@@ -80,6 +75,14 @@ public class TenantConfig {
         return requestUrl + redirectUri;
     }
     // END not updateable after startup
+
+    public String getSessionUsername() {
+        return sessionUsername;
+    }
+
+    public String getSessionPassword() {
+        return sessionPassword;
+    }
 
     public String getOidcClientId() {
         return getEnv("okta.oidc.client.id");
