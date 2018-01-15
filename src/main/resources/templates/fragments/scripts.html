@@ -169,8 +169,11 @@
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify({
                             'okta.oidc.client.id': $('#oidc_client_id').val(),
+                            'okta.oidc.client.secret': $('#oidc_client_secret').val(),
                             'okta.authorization.server.id': $('#auth_server_id').val(),
-                            'okta.org': $('#okta_org').val()
+                            'okta.org': $('#okta_org').val(),
+                            'okta.session.username': $('#okta_username').val(),
+                            'okta.session.password': $('#okta_password').val()
                         }),
                         dataType: 'json'
                     });

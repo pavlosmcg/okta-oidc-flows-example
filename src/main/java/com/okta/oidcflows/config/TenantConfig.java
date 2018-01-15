@@ -19,11 +19,8 @@ public class TenantConfig {
     public static final String FLOW_REDIRECT_URI = "/flow_result";
     public static final String SESSION_REDIRECT_URI = "/continue";
 
-    // BEGIN not updateable after startup
     @Value("#{ @environment['okta.oidc.client.secret'] }")
     protected String oidcClientSecret;
-
-    // END not updateable after startup
 
     @Value("#{ @environment['okta.session.username'] }")
     protected String sessionUsername;
@@ -52,13 +49,11 @@ public class TenantConfig {
     private void setup() {
         envMap = new HashMap<>();
         envMap.put("okta.oidc.client.id", oidcClientId);
+        envMap.put("okta.oidc.client.secret", oidcClientSecret);
         envMap.put("okta.authorization.server.id", authorizationServerId);
         envMap.put("okta.org", oktaOrg);
-    }
-
-    // BEGIN not updateable after startup
-    public String getOidcClientSecret() {
-        return oidcClientSecret;
+        envMap.put("okta.session.username", sessionUsername);
+        envMap.put("okta.session.password", sessionPassword);
     }
 
     public String getRedirectUrl(HttpServletRequest req, String redirectUri) {
@@ -74,14 +69,17 @@ public class TenantConfig {
 
         return requestUrl + redirectUri;
     }
-    // END not updateable after startup
 
     public String getSessionUsername() {
-        return sessionUsername;
+        return getEnv("okta.session.username");
     }
 
     public String getSessionPassword() {
-        return sessionPassword;
+        return getEnv("okta.session.password");
+    }
+
+    public String getOidcClientSecret() {
+        return getEnv("okta.oidc.client.secret");
     }
 
     public String getOidcClientId() {

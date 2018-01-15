@@ -30,6 +30,7 @@ public class HomeController {
     @RequestMapping(TenantConfig.SESSION_REDIRECT_URI)
     public String home(HttpServletRequest req, Model model) {
         model.addAttribute("oidcClientId", tenantConfig.getOidcClientId());
+        model.addAttribute("oidcClientSecret", tenantConfig.getOidcClientSecret());
         model.addAttribute("authorizationServerId", tenantConfig.getAuthorizationServerId());
         model.addAttribute("oktaOrg", tenantConfig.getOktaOrg());
         model.addAttribute("nonce", UUID.randomUUID().toString());
