@@ -225,31 +225,6 @@
             var query = (location.search) ? location.search : location.href.substring(location.href.indexOf('#')+1);
             var urlParams = new URLSearchParams(query);
 
-            // check to see if the config has changed. If so, we need to disable the validate access token button
-            $.ajax({
-                url: '/is_changed',
-                type: 'GET',
-                success: function (response) {
-                    var isConfigChanged = response.isChanged;
-
-                    if (urlParams.get('code')) {
-                        $('#code').val(urlParams.get('code'));
-                        if (isConfigChanged) {
-                            $('.exchange-code').prop("disabled",true);
-                        }
-                        $('#code-section').show();
-                    }
-
-                    if (urlParams.get('access_token')) {
-                        $('#access_token').val(urlParams.get('access_token'));
-                        if (isConfigChanged) {
-                            $('.introspect').prop("disabled",true);
-                        }
-                        $('#access_token-section').show();
-                    }
-                }
-            });
-
             if (urlParams.get('id_token')) {
                 $('#id_token').val(urlParams.get('id_token'));
                 $('#id_token-section').show();
