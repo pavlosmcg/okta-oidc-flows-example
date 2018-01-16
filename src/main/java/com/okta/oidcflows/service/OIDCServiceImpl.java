@@ -69,8 +69,9 @@ public class OIDCServiceImpl implements OIDCService {
         map = mapper.readValue(response.getEntity().getContent(), typeRef);
         String sessionToken = map.get("sessionToken");
 
+        String authServer = (tenantConfig.getAuthorizationServerId() == "") ? "" : ("/" + tenantConfig.getAuthorizationServerId());
         String sessionLink = "https://" + tenantConfig.getOktaOrg() +
-            "/oauth2/" + tenantConfig.getAuthorizationServerId() + "/v1/authorize?" +
+            "/oauth2" + authServer + "/v1/authorize?" +
             "client_id=" + tenantConfig.getOidcClientId() + "&" +
             "response_type=code&scope=openid&" +
             "state=" + DashedStringGenerator.generate(4) + "&" +
