@@ -152,8 +152,12 @@
                         dataType: 'json',
                         success: function (response) {
                             $('#oidc_client_id').val(response['okta.oidc.client.id']);
+                            $('#oidc_client_secret').val(response['okta.oidc.client.secret']);
                             $('#auth_server_id').val(response['okta.authorization.server.id']);
                             $('#okta_org').val(response['okta.org']);
+                            $('#okta_username').val(response['okta.session.username']);
+                            $('#okta_password').val(response['okta.session.password']);
+
                             codeUrlBuilder();
                         }
                     });
@@ -224,6 +228,16 @@
 
             var query = (location.search) ? location.search : location.href.substring(location.href.indexOf('#')+1);
             var urlParams = new URLSearchParams(query);
+
+            if (urlParams.get('code')) {
+                $('#code').val(urlParams.get('code'));
+                $('#code-section').show();
+            }
+
+            if (urlParams.get('access_token')) {
+                $('#access_token').val(urlParams.get('access_token'));
+                $('#access_token-section').show();
+            }
 
             if (urlParams.get('id_token')) {
                 $('#id_token').val(urlParams.get('id_token'));
