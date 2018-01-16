@@ -37,7 +37,6 @@ public class HomeController {
         model.addAttribute("state", DashedStringGenerator.generate(4));
         model.addAttribute("redirectUri", tenantConfig.getRedirectUrl(req, TenantConfig.FLOW_REDIRECT_URI));
         model.addAttribute("sessionUsername", tenantConfig.getSessionUsername());
-        model.addAttribute("sessionPassword", tenantConfig.getSessionPassword());
 
         return "home";
     }
